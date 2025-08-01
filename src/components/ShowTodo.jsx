@@ -1,3 +1,5 @@
+import { MdDelete } from "react-icons/md";
+
 function ShowTodo(props) {
   let {todoname , tododate} = props.element;
   return (
@@ -7,7 +9,7 @@ function ShowTodo(props) {
         <div className="col-4">{tododate}</div>
         <div className="col-2">
           <button type="button" className="btn btn-danger" onClick={()=>{props.handleOnDelete(props.element)}}> 
-            Delete
+            <MdDelete />
           </button>
         </div>
       </div>

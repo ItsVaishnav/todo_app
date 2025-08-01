@@ -1,4 +1,5 @@
 import styles from "./AddTodo.module.css";
+import { MdOutlinePostAdd } from "react-icons/md";
 
 function AddTodo({HandleOnAdd, HandleOnChangeDate, HandleOnChangeName , name , date}) {
   return (
@@ -13,7 +14,7 @@ function AddTodo({HandleOnAdd, HandleOnChangeDate, HandleOnChangeName , name , d
         </div>
         <div className="col-2">
           <button type="button" className="btn btn-success" onClick={HandleOnAdd}>
-            Add
+            <MdOutlinePostAdd />            
           </button>
         </div>
       </div>
