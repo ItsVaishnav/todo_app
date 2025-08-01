@@ -49,18 +49,18 @@ function App() {
   return (  
     <>
       <div className="to-do-container text-center conn">
-        <Container>
+        {/* <Container> */}
         <AppName />
         <Errormessage error={error} errorDesc={errorDesc}/>
-        </Container>
-        <Container>
+        {/* </Container> */}
+        {/* <Container> */}
         <AddTodo HandleOnAdd={HandleOnAdd} HandleOnChangeName={HandleOnChangeName} HandleOnChangeDate={HandleOnChangeDate} name={name} date={date}/>
         <div className="container text-center">
           {items.map(ele=> (
             <ShowTodo key={ele.todoname} element={ele} handleOnDelete={handleOnDelete}/>
           ))}
         </div>
-        </Container>
+        {/* </Container> */}
       </div>
     </>
   );
