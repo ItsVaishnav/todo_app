@@ -15,23 +15,6 @@ function App() {
   ]);
 
   const OnAddTodo = (todoname,tododate) => {
-    if (todoname === "" || tododate === "") {
-      setError("Empty Items");
-      setErrorDesc("Please Enter Somthing to add ....!");
-      return;
-    }
-    if (
-      items.some(
-        (item) =>
-          item.todoname === todoname &&
-          item.tododate === tododate
-      )
-    ) {
-      setError("Dulicate Item");
-      setErrorDesc("This todo has been already added ...!");
-      return;
-    }
-
     setItems((currentValue) => [
       ...currentValue,
       {
@@ -59,15 +42,15 @@ function App() {
         <AllContextProvider>
           <Errormessage/>
           <AddTodo/>
-        </AllContextProvider>
         <div className="container text-center">
           {items.map((ele) => (
             <ShowTodo
-              key={`${ele.todoname}-${ele.tododate}`}
-              element={ele}
+            key={`${ele.todoname}-${ele.tododate}`}
+            element={ele}
             />
           ))}
         </div>
+        </AllContextProvider>
         </TodoItemContext.Provider>
       </div>
     </>
