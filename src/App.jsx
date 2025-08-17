@@ -1,66 +1,79 @@
 import AppName from "./components/AppName";
 import AddTodo from "./components/AddTodo";
 import ShowTodo from "./components/ShowTodo";
-import Container from "./components/Container";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Errormessage from "./components/Errormessage";
+import { TodoItemContext } from "./store/todo-item-store";
+
+
 function App() {
-
-  const [items ,setItems] = useState([
-    {todoname : "Buy Milk",tododate : "20/07/2025"},
-    {todoname : "Buy Eggs",tododate : "28/07/2025"},
+  const [items, setItems] = useState([
+    { todoname: "Buy Milk", tododate: "20/07/2025" },
+    { todoname: "Buy Eggs", tododate: "28/07/2025" },
   ]);
+  
+  
 
-  const [name , setName] = useState('');
-  const [date , setDate] = useState('');
-
-  const [error , setError] = useState('');
-  const [errorDesc , setErrorDesc] = useState('');
-
-  const HandleOnAdd = () => {
-    if(name === "" || date === ''){
+  const OnAddTodo = (todoname,tododate) => {
+    if (todoname === "" || tododate === "") {
       setError("Empty Items");
       setErrorDesc("Please Enter Somthing to add ....!");
-    }else if (items.some((item) => item.todoname === name && item.tododate === date)){
+      return;
+    }
+    if (
+      items.some(
+        (item) =>
+          item.todoname === todoname &&
+          item.tododate === tododate
+      )
+    ) {
       setError("Dulicate Item");
       setErrorDesc("This todo has been already added ...!");
-    }else{
-      let newItems = [...items , {todoname : name,tododate : date}];
-      setItems(newItems);
-      setError("ToDo Added");
-      setErrorDesc("Your todo has been added successfully...!");
+      return;
     }
-    setName('');
-    setDate('');
-  }
 
-  const HandleOnChangeName = (event) => {
-    setName(event.target.value);
-  }
-  const HandleOnChangeDate = (event) => {
-    setDate(event.target.value);
-  }
+    setItems((currentValue) => [
+      ...currentValue,
+      {
+        todoname: todoname,
+        tododate: tododate,
+      },
+    ]);
+    console.log(todoname);
+    console.log(tododate);
+    setError("ToDo Added");
+    setErrorDesc("Your todo has been added successfully...!");
+  };
 
-  const handleOnDelete = (item) =>{
-    let NewArr = items.filter(ele => ele !== item)
-    setItems(NewArr);
-  }
+     useEffect(()=>{
+      console.log(items);
+    },[items])
 
-  return (  
+  const OnDelete = (item) => {
+    setItems((oldvalue) =>
+      oldvalue.filter(
+        (ele) =>
+          !(ele.todoname === item.todoname && ele.tododate === item.tododate)
+      )
+    );
+  };
+
+  return (
     <>
       <div className="to-do-container text-center conn">
-        {/* <Container> */}
+        <TodoItemContext.Provider value={{items,OnDelete,OnAddTodo}}>
         <AppName />
-        <Errormessage error={error} errorDesc={errorDesc}/>
-        {/* </Container> */}
-        {/* <Container> */}
-        <AddTodo HandleOnAdd={HandleOnAdd} HandleOnChangeName={HandleOnChangeName} HandleOnChangeDate={HandleOnChangeDate} name={name} date={date}/>
+        <Errormessage error={error} errorDesc={errorDesc} />
+        <AddTodo/>
         <div className="container text-center">
-          {items.map(ele=> (
-            <ShowTodo key={ele.todoname} element={ele} handleOnDelete={handleOnDelete}/>
+          {items.map((ele) => (
+            <ShowTodo
+              key={`${ele.todoname}-${ele.tododate}`}
+              element={ele}
+            />
           ))}
         </div>
-        {/* </Container> */}
+        </TodoItemContext.Provider>
       </div>
     </>
   );
