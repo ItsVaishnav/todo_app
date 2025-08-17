@@ -2,10 +2,10 @@ import { createContext, useContext, useState } from "react";
 
 const AllContext = createContext();
 
-export function TrailProvider({ children }) {
-  const [data, setData] = useState("");
+export function AllContextProvider({ children }) {
+  const [error, setError] = useState({error: "" , errorDesc: ""});
   return (
-    <AllContext.Provider value={{ data, setData }}>
+    <AllContext.Provider value={{error, setError}}>
       {children}
     </AllContext.Provider>
   );
